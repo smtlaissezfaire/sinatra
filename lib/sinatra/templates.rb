@@ -29,11 +29,13 @@ module Sinatra
 
     def render(engine_name, template, options={}) #:nodoc:
       data   = lookup_template(engine_name, template, options)
-      output = resolve_engine(engine_name).render(self, template, data, options)
+      engine = resolve_engine(engine_name)
+
+      output = engine.render(self, template, data, options)
       layout, data = lookup_layout(engine_name, options)
 
       if layout
-        resolve_engine(engine_name).render(self, layout, data, options) { output }
+        engine.render(self, layout, data, options) { output }
       else
         output
       end
