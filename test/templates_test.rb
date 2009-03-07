@@ -22,24 +22,6 @@ describe 'Templating' do
     File.unlink(layout) rescue nil
   end
 
-  it 'renders String templates directly' do
-    render_app { render :test, 'Hello World' }
-    assert ok?
-    assert_equal 'Hello World', body
-  end
-
-  it 'renders Proc templates using the call result' do
-    render_app { render :test, Proc.new {'Hello World'} }
-    assert ok?
-    assert_equal 'Hello World', body
-  end
-
-  it 'looks up Symbol templates in views directory' do
-    render_app { render :test, :hello }
-    assert ok?
-    assert_equal "Hello World!\n", body
-  end
-
   it 'uses the default layout template if not explicitly overridden' do
     with_default_layout do
       render_app { render :test, :hello }
