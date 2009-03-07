@@ -2,7 +2,6 @@ module Sinatra
   # Template rendering methods. Each method takes a the name of a template
   # to render as a Symbol and returns a String with the rendered output.
   module Templates
-
     module Helpers
       def erb(template, options={})
         @engine = resolve_engine(:erb)
@@ -27,23 +26,23 @@ module Sinatra
         template = lambda { block } if template.nil?
         render :builder, template, options
       end
+
+      def render(engine_name, template, options={}) #:nodoc:
+        data   = lookup_template(engine_name, template, options)
+        @engine ||= resolve_engine(engine_name)
+
+        output = @engine.render(self, template, data, options)
+        layout, data = lookup_layout(engine_name, options)
+
+        if layout
+          @engine.render(self, layout, data, options) { output }
+        else
+          output
+        end
+      end
     end
 
     include Helpers
-
-    def render(engine_name, template, options={}) #:nodoc:
-      data   = lookup_template(engine_name, template, options)
-      @engine ||= resolve_engine(engine_name)
-
-      output = @engine.render(self, template, data, options)
-      layout, data = lookup_layout(engine_name, options)
-
-      if layout
-        @engine.render(self, layout, data, options) { output }
-      else
-        output
-      end
-    end
 
   private
 
