@@ -1,6 +1,6 @@
-require File.dirname(__FILE__) + '/helper'
+require File.dirname(__FILE__) + "/helper"
 
-describe 'Templating' do
+describe "Layouts test" do
   def render_app(&block)
     mock_app {
       def render_test(template, data, options, &block)
@@ -49,22 +49,4 @@ describe 'Templating' do
     assert ok?
     assert_equal "Layout 3!\nHello World!\n", body
   end
-
-  it 'loads templates from source file with use_in_file_templates!' do
-    mock_app {
-      use_in_file_templates!
-    }
-    assert_equal "this is foo\n\n", @app.templates[:foo]
-    assert_equal "X\n= yield\nX\n", @app.templates[:layout]
-  end
 end
-
-__END__
-
-@@ foo
-this is foo
-
-@@ layout
-X
-= yield
-X
