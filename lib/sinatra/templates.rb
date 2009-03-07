@@ -75,81 +75,27 @@ module Sinatra
     end
 
     def render_erb(template, data, options, &block)
-      ERBRenderer.new(self).render(template, data, options, &block)
-    end
-
-    class ERBRenderer
-      def initialize(target)
-        @target = target
-      end
-
-      def render(template, data, options, &block)
-        @target.instance_eval do
-          original_out_buf = @_out_buf
-          data = data.call if data.kind_of? Proc
-
-          instance = ::ERB.new(data, nil, nil, '@_out_buf')
-          locals = options[:locals] || {}
-          locals_assigns = locals.to_a.collect { |k,v| "#{k} = locals[:#{k}]" }
-
-          src = "#{locals_assigns.join("\n")}\n#{instance.src}"
-          eval src, binding, '(__ERB__)', locals_assigns.length + 1
-          @_out_buf, result = original_out_buf, @_out_buf
-          result
-        end
-      end
+      Rendering::ERBRenderer.new(self).render(template, data, options, &block)
     end
 
     def render_haml(template, data, options, &block)
-      HamlRenderer.render(data, options, &block)
-    end
-
-    class HamlRenderer
-      def self.render(data, options, &block)
-        new.render(data, options, &block)
-      end
-
-      def render(data, options, &block)
-        engine = ::Haml::Engine.new(data, options[:options] || {})
-        engine.render(self, options[:locals] || {}, &block)
-      end
+      Rendering::HamlRenderer.render(data, options, &block)
     end
 
     def render_sass(template, data, options, &block)
-      SassRenderer.render(data, options)
-    end
-
-    class SassRenderer
-      def self.render(data, options)
-        new.render(data, options)
-      end
-
-      def render(data, options)
-        engine = ::Sass::Engine.new(data, options[:sass] || {})
-        engine.render
-      end
+      Rendering::SassRenderer.render(data, options)
     end
 
     def render_builder(template, data, options, &block)
-      BuilderRenderer.new(self).render(template, data, options, &block)
+      Rendering::BuilderRenderer.new(self).render(template, data, options, &block)
     end
 
-    class BuilderRenderer
-      def initialize(target)
-        @target = target
-      end
+    dir = File.dirname(__FILE__) + "/rendering"
 
-      def render(template, data, options, &block)
-        @target.instance_eval do
-          xml = ::Builder::XmlMarkup.new(:indent => 2)
-          if data.respond_to?(:to_str)
-            eval data.to_str, binding, '<BUILDER>', 1
-          elsif data.kind_of?(Proc)
-            data.call(xml)
-          end
-          xml.target!
-        end
-      end
-    end
+    require "#{dir}/erb_renderer"
+    require "#{dir}/haml_renderer"
+    require "#{dir}/sass_renderer"
+    require "#{dir}/builder_renderer"
+
   end
 end
