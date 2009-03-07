@@ -27,22 +27,22 @@ module Sinatra
 
     include Helpers
 
-    def render(engine, template, options={}) #:nodoc:
-      data   = lookup_template(engine, template, options)
+    def render(engine_name, template, options={}) #:nodoc:
+      data   = lookup_template(engine_name, template, options)
 
       begin
-        output = resolve_engine(engine).render(self, template, data, options)
+        output = resolve_engine(engine_name).render(self, template, data, options)
       rescue EngineNotFound
-        output = __send__("render_#{engine}", template, data, options)
+        output = __send__("render_#{engine_name}", template, data, options)
       end
 
-      layout, data = lookup_layout(engine, options)
+      layout, data = lookup_layout(engine_name, options)
 
       if layout
         begin
-          resolve_engine(engine).render(self, layout, data, options) { output }
+          resolve_engine(engine_name).render(self, layout, data, options) { output }
         rescue EngineNotFound
-          __send__("render_#{engine}", layout, data, options) { output }
+          __send__("render_#{engine_name}", layout, data, options) { output }
         end
       else
         output
