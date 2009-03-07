@@ -21,7 +21,7 @@ module Sinatra
   require "#{dir}/templates"
   require "#{dir}/delegator"
   require "#{dir}/base"
-  require "#{dir}/default_base"
+  require "#{dir}/default"
   require "#{dir}/core_extensions"
   require "#{dir}/compat"
   require "#{dir}/top_level_helpers"
