@@ -23,8 +23,8 @@ module Sinatra
   require "#{dir}/default_base"
   require "#{dir}/core_extensions"
   require "#{dir}/delegator"
-  require '#{dir}/main'
-  require '#{dir}/compat'
+  require "#{dir}/main"
+  require "#{dir}/compat"
   require "#{dir}/top_level_helpers"
   
   extend TopLevelHelpers
