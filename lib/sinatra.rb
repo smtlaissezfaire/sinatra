@@ -23,8 +23,10 @@ module Sinatra
   require "#{dir}/default_base"
   require "#{dir}/core_extensions"
   require "#{dir}/delegator"
+  require '#{dir}/main'
+  require '#{dir}/compat'
   require "#{dir}/top_level_helpers"
-
+  
   extend TopLevelHelpers
 
   # The top-level Application. All DSL methods executed on main are delegated
@@ -32,8 +34,5 @@ module Sinatra
   class Application < Default
   end
 end
-
-require 'sinatra/main'
-require 'sinatra/compat'
 
 use_in_file_templates!
