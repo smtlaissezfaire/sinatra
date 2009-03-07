@@ -15,15 +15,21 @@ module Sinatra
   end
   
   dir = File.dirname(__FILE__) + "/sinatra"
+  # Sinatra helpers
   require "#{dir}/core_extensions"
   require "#{dir}/delegator"
+
+  # core classes
   require "#{dir}/request"
   require "#{dir}/response"
   require "#{dir}/helpers"
   require "#{dir}/templates"
   require "#{dir}/base"
   require "#{dir}/default"
+  # compatibility mode until 1.0
   require "#{dir}/compatibility"
+
+  # metaclass for this class
   require "#{dir}/top_level_helpers"
   extend TopLevelHelpers
 
