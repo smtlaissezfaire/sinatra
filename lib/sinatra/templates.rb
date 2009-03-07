@@ -26,7 +26,6 @@ module Sinatra
       render :builder, template, options
     end
 
-  private
     def render(engine, template, options={}) #:nodoc:
       data   = lookup_template(engine, template, options)
       output = __send__("render_#{engine}", template, data, options)
@@ -86,13 +85,33 @@ module Sinatra
     end
 
     def render_haml(template, data, options, &block)
-      engine = ::Haml::Engine.new(data, options[:options] || {})
-      engine.render(self, options[:locals] || {}, &block)
+      HamlRenderer.render(data, options, &block)
+    end
+
+    class HamlRenderer
+      def self.render(data, options, &block)
+        new.render(data, options, &block)
+      end
+
+      def render(data, options, &block)
+        engine = ::Haml::Engine.new(data, options[:options] || {})
+        engine.render(self, options[:locals] || {}, &block)
+      end
     end
 
     def render_sass(template, data, options, &block)
-      engine = ::Sass::Engine.new(data, options[:sass] || {})
-      engine.render
+      SassRenderer.render(data, options)
+    end
+
+    class SassRenderer
+      def self.render(data, options)
+        new.render(data, options)
+      end
+
+      def render(data, options)
+        engine = ::Sass::Engine.new(data, options[:sass] || {})
+        engine.render
+      end
     end
 
     def render_builder(template, data, options, &block)
