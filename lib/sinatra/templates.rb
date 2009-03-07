@@ -30,15 +30,29 @@ module Sinatra
       def render(engine_name, template, options={}) #:nodoc:
         data   = lookup_template(engine_name, template, options)
         @engine ||= resolve_engine(engine_name)
+        
+        render_template_with_layout(engine_name, template, data, options)
+      end
 
-        output = @engine.render(self, template, data, options)
+    private
+
+      def render_template_with_layout(engine_name, template, data, options)
+        output = render_template(template, data, options)
         layout, data = lookup_layout(engine_name, options)
 
         if layout
-          @engine.render(self, layout, data, options) { output }
+          render_layout(template, data, options, output)
         else
           output
         end
+      end
+
+      def render_layout(template, data, options, output)
+        @engine.render(self, layout, data, options) { output }
+      end
+
+      def render_template(template, data, options)
+        @engine.render(self, template, data, options)
       end
     end
 
