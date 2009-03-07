@@ -1,11 +1,14 @@
-require 'sinatra/base'
+require 'sinatra'
 
 module Sinatra
   module Test
     include Rack::Utils
 
     def self.included(base)
-      Sinatra::Default.set(:environment, :test)
+      Sinatra::Default.class_eval do
+        set :environment, :test
+        set :app_file,    nil
+      end
     end
 
     attr_reader :app, :request, :response
