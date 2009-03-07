@@ -71,19 +71,19 @@ module Sinatra
     end
 
     def render_erb(template, data, options, &block)
-      Rendering::ERBRenderer.new(self).render(template, data, options, &block)
+      Rendering::ERBRenderer.render(self, template, data, options, &block)
     end
 
     def render_haml(template, data, options, &block)
-      Rendering::HamlRenderer.render(self, data, options, &block)
+      Rendering::HamlRenderer.render(self, template, data, options, &block)
     end
 
     def render_sass(template, data, options, &block)
-      Rendering::SassRenderer.render(self, data, options)
+      Rendering::SassRenderer.render(self, template, data, options, &block)
     end
 
     def render_builder(template, data, options, &block)
-      Rendering::BuilderRenderer.new(self).render(template, data, options, &block)
+      Rendering::BuilderRenderer.render(self, template, data, options, &block)
     end
   end
 
