@@ -15,17 +15,16 @@ module Sinatra
   end
   
   dir = File.dirname(__FILE__) + "/sinatra"
+  require "#{dir}/core_extensions"
+  require "#{dir}/delegator"
   require "#{dir}/request"
   require "#{dir}/response"
   require "#{dir}/helpers"
   require "#{dir}/templates"
-  require "#{dir}/delegator"
   require "#{dir}/base"
   require "#{dir}/default"
-  require "#{dir}/core_extensions"
   require "#{dir}/compatibility"
   require "#{dir}/top_level_helpers"
-  
   extend TopLevelHelpers
 
   # The top-level Application. All DSL methods executed on main are delegated
