@@ -89,13 +89,13 @@ module Sinatra
     def render_builder(template, data, options, &block)
       Rendering::BuilderRenderer.new(self).render(template, data, options, &block)
     end
+  end
 
+  module Rendering
     dir = File.dirname(__FILE__) + "/rendering"
-
-    require "#{dir}/erb_renderer"
-    require "#{dir}/haml_renderer"
-    require "#{dir}/sass_renderer"
-    require "#{dir}/builder_renderer"
-
+    autoload :ERBRenderer,     "#{dir}/erb_renderer"
+    autoload :HamlRenderer,    "#{dir}/haml_renderer"
+    autoload :SassRenderer,    "#{dir}/sass_renderer"
+    autoload :BuilderRenderer, "#{dir}/builder_renderer"
   end
 end
