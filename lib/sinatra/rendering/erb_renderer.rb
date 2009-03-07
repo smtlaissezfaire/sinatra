@@ -2,11 +2,7 @@ require 'erb' unless defined? ::ERB
 
 module Sinatra
   module Rendering
-    class ERBRenderer
-      def initialize(target)
-        @target = target
-      end
-
+    class ERBRenderer < Base
       def render(template, data, options, &block)
         @target.instance_eval do
           original_out_buf = @_out_buf

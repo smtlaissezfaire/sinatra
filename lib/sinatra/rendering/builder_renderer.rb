@@ -2,11 +2,7 @@ require 'builder' unless defined? ::Builder
 
 module Sinatra
   module Rendering
-    class BuilderRenderer
-      def initialize(target)
-        @target = target
-      end
-
+    class BuilderRenderer < Base
       def render(template, data, options, &block)
         @target.instance_eval do
           xml = ::Builder::XmlMarkup.new(:indent => 2)

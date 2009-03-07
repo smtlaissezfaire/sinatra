@@ -75,11 +75,11 @@ module Sinatra
     end
 
     def render_haml(template, data, options, &block)
-      Rendering::HamlRenderer.render(data, options, &block)
+      Rendering::HamlRenderer.render(self, data, options, &block)
     end
 
     def render_sass(template, data, options, &block)
-      Rendering::SassRenderer.render(data, options)
+      Rendering::SassRenderer.render(self, data, options)
     end
 
     def render_builder(template, data, options, &block)
@@ -89,6 +89,7 @@ module Sinatra
 
   module Rendering
     dir = File.dirname(__FILE__) + "/rendering"
+    autoload :Base,            "#{dir}/base"
     autoload :ERBRenderer,     "#{dir}/erb_renderer"
     autoload :HamlRenderer,    "#{dir}/haml_renderer"
     autoload :SassRenderer,    "#{dir}/sass_renderer"
