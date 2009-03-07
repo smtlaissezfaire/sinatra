@@ -19,7 +19,7 @@ module Sinatra
   require "#{dir}/response"
   require "#{dir}/helpers"
   require "#{dir}/templates"
-  require "#{dir}/real_base"
+  require "#{dir}/base"
   require "#{dir}/default_base"
   require "#{dir}/core_extensions"
   require "#{dir}/delegator"
