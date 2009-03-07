@@ -1,3 +1,5 @@
+require 'builder' unless defined? ::Builder
+
 module Sinatra
   module Rendering
     class BuilderRenderer

@@ -1,3 +1,5 @@
+require 'erb' unless defined? ::ERB
+
 module Sinatra
   module Rendering
     class ERBRenderer

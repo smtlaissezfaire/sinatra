@@ -1,3 +1,5 @@
+require 'sass' unless defined? ::Sass
+
 module Sinatra
   module Rendering
     class SassRenderer

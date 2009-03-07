@@ -5,24 +5,20 @@ module Sinatra
 
     module Helpers
       def erb(template, options={})
-        require 'erb' unless defined? ::ERB
         render :erb, template, options
       end
 
       def haml(template, options={})
-        require 'haml' unless defined? ::Haml
         options[:options] ||= self.class.haml if self.class.respond_to? :haml
         render :haml, template, options
       end
 
       def sass(template, options={}, &block)
-        require 'sass' unless defined? ::Sass
         options[:layout] = false
         render :sass, template, options
       end
 
       def builder(template=nil, options={}, &block)
-        require 'builder' unless defined? ::Builder
         options, template = template, nil if template.is_a?(Hash)
         template = lambda { block } if template.nil?
         render :builder, template, options
