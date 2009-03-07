@@ -29,12 +29,40 @@ module Sinatra
 
     def render(engine, template, options={}) #:nodoc:
       data   = lookup_template(engine, template, options)
-      output = __send__("render_#{engine}", template, data, options)
+
+      begin
+        output = resolve_engine(engine).render(self, template, data, options)
+      rescue EngineNotFound
+        output = __send__("render_#{engine}", template, data, options)
+      end
+
       layout, data = lookup_layout(engine, options)
+
       if layout
-        __send__("render_#{engine}", layout, data, options) { output }
+        begin
+          resolve_engine(engine).render(self, layout, data, options) { output }
+        rescue EngineNotFound
+          __send__("render_#{engine}", layout, data, options) { output }
+        end
       else
         output
+      end
+    end
+
+    class EngineNotFound < StandardError; end
+
+    def resolve_engine(engine)
+      case engine
+      when :erb
+        Rendering::ERBRenderer
+      when :builder
+        Rendering::BuilderRenderer
+      when :haml
+        Rendering::HamlRenderer
+      when :sass
+        Rendering::SassRenderer
+      else
+        raise EngineNotFound, "Could not find an engine for '#{engine}'"
       end
     end
 
@@ -68,22 +96,6 @@ module Sinatra
     def template_path(engine, template, options={})
       views_dir = options[:views_directory] || self.options.views || "./views"
       "#{views_dir}/#{template}.#{engine}"
-    end
-
-    def render_erb(template, data, options, &block)
-      Rendering::ERBRenderer.render(self, template, data, options, &block)
-    end
-
-    def render_haml(template, data, options, &block)
-      Rendering::HamlRenderer.render(self, template, data, options, &block)
-    end
-
-    def render_sass(template, data, options, &block)
-      Rendering::SassRenderer.render(self, template, data, options, &block)
-    end
-
-    def render_builder(template, data, options, &block)
-      Rendering::BuilderRenderer.render(self, template, data, options, &block)
     end
   end
 
