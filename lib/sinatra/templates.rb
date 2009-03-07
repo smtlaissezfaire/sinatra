@@ -2,29 +2,34 @@ module Sinatra
   # Template rendering methods. Each method takes a the name of a template
   # to render as a Symbol and returns a String with the rendered output.
   module Templates
-    def erb(template, options={})
-      require 'erb' unless defined? ::ERB
-      render :erb, template, options
+
+    module Helpers
+      def erb(template, options={})
+        require 'erb' unless defined? ::ERB
+        render :erb, template, options
+      end
+
+      def haml(template, options={})
+        require 'haml' unless defined? ::Haml
+        options[:options] ||= self.class.haml if self.class.respond_to? :haml
+        render :haml, template, options
+      end
+
+      def sass(template, options={}, &block)
+        require 'sass' unless defined? ::Sass
+        options[:layout] = false
+        render :sass, template, options
+      end
+
+      def builder(template=nil, options={}, &block)
+        require 'builder' unless defined? ::Builder
+        options, template = template, nil if template.is_a?(Hash)
+        template = lambda { block } if template.nil?
+        render :builder, template, options
+      end
     end
 
-    def haml(template, options={})
-      require 'haml' unless defined? ::Haml
-      options[:options] ||= self.class.haml if self.class.respond_to? :haml
-      render :haml, template, options
-    end
-
-    def sass(template, options={}, &block)
-      require 'sass' unless defined? ::Sass
-      options[:layout] = false
-      render :sass, template, options
-    end
-
-    def builder(template=nil, options={}, &block)
-      require 'builder' unless defined? ::Builder
-      options, template = template, nil if template.is_a?(Hash)
-      template = lambda { block } if template.nil?
-      render :builder, template, options
-    end
+    include Helpers
 
     def render(engine, template, options={}) #:nodoc:
       data   = lookup_template(engine, template, options)
@@ -65,23 +70,34 @@ module Sinatra
     end
 
     def template_path(engine, template, options={})
-      views_dir =
-        options[:views_directory] || self.options.views || "./views"
+      views_dir = options[:views_directory] || self.options.views || "./views"
       "#{views_dir}/#{template}.#{engine}"
     end
 
     def render_erb(template, data, options, &block)
-      original_out_buf = @_out_buf
-      data = data.call if data.kind_of? Proc
+      ERBRenderer.new(self).render(template, data, options, &block)
+    end
 
-      instance = ::ERB.new(data, nil, nil, '@_out_buf')
-      locals = options[:locals] || {}
-      locals_assigns = locals.to_a.collect { |k,v| "#{k} = locals[:#{k}]" }
+    class ERBRenderer
+      def initialize(target)
+        @target = target
+      end
 
-      src = "#{locals_assigns.join("\n")}\n#{instance.src}"
-      eval src, binding, '(__ERB__)', locals_assigns.length + 1
-      @_out_buf, result = original_out_buf, @_out_buf
-      result
+      def render(template, data, options, &block)
+        @target.instance_eval do
+          original_out_buf = @_out_buf
+          data = data.call if data.kind_of? Proc
+
+          instance = ::ERB.new(data, nil, nil, '@_out_buf')
+          locals = options[:locals] || {}
+          locals_assigns = locals.to_a.collect { |k,v| "#{k} = locals[:#{k}]" }
+
+          src = "#{locals_assigns.join("\n")}\n#{instance.src}"
+          eval src, binding, '(__ERB__)', locals_assigns.length + 1
+          @_out_buf, result = original_out_buf, @_out_buf
+          result
+        end
+      end
     end
 
     def render_haml(template, data, options, &block)
@@ -115,13 +131,25 @@ module Sinatra
     end
 
     def render_builder(template, data, options, &block)
-      xml = ::Builder::XmlMarkup.new(:indent => 2)
-      if data.respond_to?(:to_str)
-        eval data.to_str, binding, '<BUILDER>', 1
-      elsif data.kind_of?(Proc)
-        data.call(xml)
+      BuilderRenderer.new(self).render(template, data, options, &block)
+    end
+
+    class BuilderRenderer
+      def initialize(target)
+        @target = target
       end
-      xml.target!
+
+      def render(template, data, options, &block)
+        @target.instance_eval do
+          xml = ::Builder::XmlMarkup.new(:indent => 2)
+          if data.respond_to?(:to_str)
+            eval data.to_str, binding, '<BUILDER>', 1
+          elsif data.kind_of?(Proc)
+            data.call(xml)
+          end
+          xml.target!
+        end
+      end
     end
   end
 end
