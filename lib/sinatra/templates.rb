@@ -45,6 +45,8 @@ module Sinatra
       end
     end
 
+  private
+
     class EngineNotFound < StandardError; end
 
     def resolve_engine(engine)
