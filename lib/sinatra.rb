@@ -24,6 +24,7 @@ module Sinatra
   require "#{dir}/response"
   require "#{dir}/helpers"
   require "#{dir}/templates"
+  require "#{dir}/rendering"
   require "#{dir}/base"
   require "#{dir}/default"
   # compatibility mode until 1.0
