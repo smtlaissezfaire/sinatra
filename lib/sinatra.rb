@@ -23,7 +23,7 @@ module Sinatra
   require "#{dir}/request"
   require "#{dir}/response"
   require "#{dir}/helpers"
-  require "#{dir}/templates"
+  require "#{dir}/rendering_engine"
   require "#{dir}/base"
   require "#{dir}/default"
   # compatibility mode until 1.0

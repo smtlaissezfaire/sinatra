@@ -3,7 +3,6 @@ module Sinatra
   class Base
     include Rack::Utils
     include Helpers
-    include Templates
 
     attr_accessor :app
 
