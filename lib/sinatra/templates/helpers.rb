@@ -1,5 +1,7 @@
 module Sinatra
   module Templates
+    # Template rendering methods. Each method takes a the name of a template
+    # to render as a Symbol and returns a String with the rendered output.
     module Helpers
       def erb(template, options={})
         @engine = resolve_engine(:erb)
