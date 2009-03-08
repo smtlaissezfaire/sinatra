@@ -4,6 +4,15 @@ module Sinatra
       class << self
         class EngineNotFound < StandardError; end
 
+        def engines
+          {
+            :erb     => :ERBRenderer,
+            :builder => :BuilderRenderer,
+            :haml    => :HamlRenderer,
+            :sass    => :SassRenderer
+          }
+        end
+
         def resolve_engine(engine, context)
           case engine
           when :erb
@@ -23,6 +32,9 @@ module Sinatra
       def initialize(target)
         @target = target
       end
+
+      attr_reader :target
+      alias_method :context, :target
 
       def render_template_with_layout(engine_name, template, data, options)
         output = render_template(template, data, options)
