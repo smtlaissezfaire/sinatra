@@ -4,32 +4,10 @@ module Sinatra
   module Templates
     
     require "sinatra/templates/helpers"
+    require "sinatra/templates/engine_resolver"
     include Helpers
 
   private
-
-    class EngineResolver
-      def self.resolve(engine)
-        new.resolve(engine)
-      end
-
-      class EngineNotFound < StandardError; end
-
-      def resolve(engine)
-        case engine
-        when :erb
-          RenderingEngine::ERBRenderer
-        when :builder
-          RenderingEngine::BuilderRenderer
-        when :haml
-          RenderingEngine::HamlRenderer
-        when :sass
-          RenderingEngine::SassRenderer
-        else
-          raise EngineNotFound, "Could not find an engine for '#{engine}'"
-        end
-      end
-    end
 
     class TemplateResolver
       def initialize(base)
