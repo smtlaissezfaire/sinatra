@@ -52,7 +52,7 @@ module Sinatra
       end
 
       def render_template(template, data, options)
-        @engine.render(template, data, options)
+        @engine.render_template(template, data, options)
       end
 
       def template_resolver
