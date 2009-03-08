@@ -5,18 +5,13 @@ module Sinatra
         @base = base
       end
 
-      def template_path(engine, template, options={})
-        views_dir = options[:views_directory] || @base.options.views || "./views"
-        "#{views_dir}/#{template}.#{engine}"
-      end
-
       def lookup_template(engine, template, options)
         case template
         when Symbol
-          if cached = @base.class.templates[template]
+          if cached = find_cached_template(template)
             lookup_template(engine, cached, options)
           else
-            ::File.read(template_path(engine, template, options))
+            read_template(engine, template, options)
           end
         when Proc
           template.call
@@ -35,6 +30,25 @@ module Sinatra
         [template, data]
       rescue Errno::ENOENT
         nil
+      end
+
+    private
+
+      def template_path(engine, template, options={})
+        views_dir = options[:views_directory] || @base.options.views || "./views"
+        "#{views_dir}/#{template}.#{engine}"
+      end
+
+      def read_template(engine, template, options)
+        ::File.read(template_path(engine, template, options))
+      end
+
+      def find_cached_template(template)
+        cached_templates[template]
+      end
+
+      def cached_templates
+        @base.class.templates
       end
     end
   end
