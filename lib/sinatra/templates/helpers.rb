@@ -48,11 +48,11 @@ module Sinatra
       end
 
       def render_layout(template, data, options, output)
-        @engine.render(self, layout, data, options) { output }
+        @engine.render(layout, data, options) { output }
       end
 
       def render_template(template, data, options)
-        @engine.render(self, template, data, options)
+        @engine.render(template, data, options)
       end
 
       def template_resolver
@@ -60,7 +60,7 @@ module Sinatra
       end
 
       def resolve_engine(engine)
-        EngineResolver.resolve(engine)
+        EngineResolver.resolve(engine, self)
       end
     end
   end

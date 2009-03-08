@@ -1,22 +1,22 @@
 module Sinatra
   module Templates
     class EngineResolver
-      def self.resolve(engine)
-        new.resolve(engine)
+      def self.resolve(engine, context)
+        new.resolve(engine, context)
       end
 
       class EngineNotFound < StandardError; end
 
-      def resolve(engine)
+      def resolve(engine, context)
         case engine
         when :erb
-          RenderingEngine::ERBRenderer
+          RenderingEngine::ERBRenderer.new(context)
         when :builder
-          RenderingEngine::BuilderRenderer
+          RenderingEngine::BuilderRenderer.new(context)
         when :haml
-          RenderingEngine::HamlRenderer
+          RenderingEngine::HamlRenderer.new(context)
         when :sass
-          RenderingEngine::SassRenderer
+          RenderingEngine::SassRenderer.new(context)
         else
           raise EngineNotFound, "Could not find an engine for '#{engine}'"
         end
