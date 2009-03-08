@@ -37,14 +37,7 @@ module Sinatra
     private
 
       def render_template_with_layout(engine_name, template, data, options)
-        output = render_template(template, data, options)
-        layout, data = template_resolver.lookup_layout(engine_name, options)
-
-        if layout
-          render_layout(template, data, options, output)
-        else
-          output
-        end
+        @engine.render_template_with_layout(engine_name, template, data, options)
       end
 
       def render_layout(template, data, options, output)
