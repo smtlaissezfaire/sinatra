@@ -30,8 +30,7 @@ module Sinatra
       def render(engine_name, template, options={}) #:nodoc:
         data   = template_resolver.lookup_template(engine_name, template, options)
         @engine ||= resolve_engine(engine_name)
-        
-        @engine.render_template_with_layout(engine_name, template, data, options)
+        @engine.render(engine_name, template, data, options)
       end
 
     private

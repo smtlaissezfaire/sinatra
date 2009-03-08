@@ -16,6 +16,8 @@ module Sinatra
         end
       end
 
+      alias_method :render, :render_template_with_layout
+
     private
 
       def template_resolver
