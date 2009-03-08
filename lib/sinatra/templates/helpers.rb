@@ -52,6 +52,14 @@ module Sinatra
       def render_template(template, data, options)
         @engine.render(self, template, data, options)
       end
+
+      def template_resolver
+        @template_resolver ||= TemplateResolver.new(self)
+      end
+
+      def resolve_engine(engine)
+        EngineResolver.resolve(engine)
+      end
     end
   end
 end
