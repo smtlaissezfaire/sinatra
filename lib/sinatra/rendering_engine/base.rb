@@ -1,9 +1,9 @@
 module Sinatra
   module RenderingEngine
     class Base
-      class << self
-        class EngineNotFound < StandardError; end
+      class EngineNotFound < StandardError; end
 
+      class << self
         def engines
           {
             :erb     => :ERBRenderer,

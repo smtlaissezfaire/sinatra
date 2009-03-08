@@ -55,4 +55,10 @@ describe "Resolving the rendering engine" do
     assert engine.kind_of?(Sinatra::RenderingEngine::SassRenderer)
     assert engine.context.equal?(context)
   end
+
+  it "should raise an EngineNotFound error if it cannot resolve the symbol" do
+    assert_raise Sinatra::RenderingEngine::Base::EngineNotFound do
+      resolve_engine(:foo, self)
+    end
+  end
 end
