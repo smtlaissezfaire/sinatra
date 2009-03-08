@@ -38,7 +38,7 @@ module Sinatra
 
       def render_template_with_layout(engine_name, template, data, options)
         output = render_template(template, data, options)
-        layout, data = lookup_layout(engine_name, options)
+        layout, data = template_resolver.lookup_layout(engine_name, options)
 
         if layout
           render_layout(template, data, options, output)
@@ -103,16 +103,16 @@ module Sinatra
           raise ArgumentError
         end
       end
-    end
 
-    def lookup_layout(engine, options)
-      return if options[:layout] == false
-      options.delete(:layout) if options[:layout] == true
-      template = options[:layout] || :layout
-      data     = template_resolver.lookup_template(engine, template, options)
-      [template, data]
-    rescue Errno::ENOENT
-      nil
+      def lookup_layout(engine, options)
+        return if options[:layout] == false
+        options.delete(:layout) if options[:layout] == true
+        template = options[:layout] || :layout
+        data     = lookup_template(engine, template, options)
+        [template, data]
+      rescue Errno::ENOENT
+        nil
+      end
     end
 
   private
