@@ -1,7 +1,7 @@
 require 'haml' unless defined? ::Haml
 
 module Sinatra
-  module Rendering
+  module RenderingEngine
     class HamlRenderer < Base
       def render(template, data, options, &block)
         engine = ::Haml::Engine.new(data, options[:options] || {})

@@ -1,5 +1,5 @@
 module Sinatra
-  module Rendering
+  module RenderingEngine
     class Base
       def self.render(obj, template, data, options, &block)
         new(obj).render(template, data, options, &block)

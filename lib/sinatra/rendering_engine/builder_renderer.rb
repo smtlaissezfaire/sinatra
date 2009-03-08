@@ -1,7 +1,7 @@
 require 'builder' unless defined? ::Builder
 
 module Sinatra
-  module Rendering
+  module RenderingEngine
     class BuilderRenderer < Base
       def render(template, data, options, &block)
         @target.instance_eval do

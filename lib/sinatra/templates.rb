@@ -65,13 +65,13 @@ module Sinatra
     def resolve_engine(engine)
       case engine
       when :erb
-        Rendering::ERBRenderer
+        RenderingEngine::ERBRenderer
       when :builder
-        Rendering::BuilderRenderer
+        RenderingEngine::BuilderRenderer
       when :haml
-        Rendering::HamlRenderer
+        RenderingEngine::HamlRenderer
       when :sass
-        Rendering::SassRenderer
+        RenderingEngine::SassRenderer
       else
         raise EngineNotFound, "Could not find an engine for '#{engine}'"
       end

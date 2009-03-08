@@ -1,7 +1,7 @@
 require 'erb' unless defined? ::ERB
 
 module Sinatra
-  module Rendering
+  module RenderingEngine
     class ERBRenderer < Base
       def render(template, data, options, &block)
         @target.instance_eval do
