@@ -4,7 +4,7 @@ module Sinatra
   module RenderingEngine
     class BuilderRenderer < Base
       def render_template(template, data, options, &block)
-        @target.instance_eval do
+        @context.instance_eval do
           xml = ::Builder::XmlMarkup.new(:indent => 2)
           if data.respond_to?(:to_str)
             eval data.to_str, binding, '<BUILDER>', 1

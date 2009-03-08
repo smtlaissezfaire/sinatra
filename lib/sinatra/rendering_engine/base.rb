@@ -23,12 +23,11 @@ module Sinatra
         end
       end
 
-      def initialize(target)
-        @target = target
+      def initialize(context)
+        @context = context
       end
 
-      attr_reader :target
-      alias_method :context, :target
+      attr_reader :context
 
       def render_template_with_layout(engine_name, template, data, options)
         output = render_template(template, data, options)
@@ -57,7 +56,7 @@ module Sinatra
     private
 
       def template_resolver
-        @template_resolver ||= Templates::TemplateResolver.new(@target)
+        @template_resolver ||= Templates::TemplateResolver.new(@context)
       end
     end
   end
