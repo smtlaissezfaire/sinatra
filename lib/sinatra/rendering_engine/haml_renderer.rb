@@ -3,6 +3,11 @@ require 'haml' unless defined? ::Haml
 module Sinatra
   module RenderingEngine
     class HamlRenderer < Base
+      def render(template, data, options)
+        options[:options] ||= @context.class.haml if @context.class.respond_to? :haml
+        super
+      end
+
       def render_template(template, data, options, &block)
         engine = ::Haml::Engine.new(data, options[:options] || {})
         engine.render(self, options[:locals] || {}, &block)

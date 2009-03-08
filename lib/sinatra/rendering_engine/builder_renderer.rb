@@ -3,6 +3,13 @@ require 'builder' unless defined? ::Builder
 module Sinatra
   module RenderingEngine
     class BuilderRenderer < Base
+      def render(template, data, options, &block)
+        options, template = template, nil if template.is_a?(Hash)
+        data = lambda { block } if data.nil?
+
+        super(template, data, options)
+      end
+
       def render_template(template, data, options, &block)
         @context.instance_eval do
           xml = ::Builder::XmlMarkup.new(:indent => 2)

@@ -10,26 +10,22 @@ module Sinatra
 
       def haml(template, options={})
         @engine = resolve_engine(:haml)
-        options[:options] ||= self.class.haml if self.class.respond_to? :haml
         render :haml, template, options
       end
 
       def sass(template, options={})
         @engine = resolve_engine(:sass)
-        options[:layout] = false
         render :sass, template, options
       end
 
       def builder(template=nil, options={}, &block)
         @engine = resolve_engine(:builder)
-        options, template = template, nil if template.is_a?(Hash)
-        template = lambda { block } if template.nil?
-        render :builder, template, options
+        render :builder, template, options, &block
       end
 
-      def render(engine_name, template, options={}) #:nodoc:
+      def render(engine_name, template, options={}, &block) #:nodoc:
         @engine ||= resolve_engine(engine_name)
-        @engine.render(engine_name, template, options)
+        @engine.render(engine_name, template, options, &block)
       end
 
     private
