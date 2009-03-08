@@ -7,13 +7,13 @@ module Sinatra
         def resolve_engine(engine, context)
           case engine
           when :erb
-            RenderingEngine::ERBRenderer.new(context)
+            ERBRenderer.new(context)
           when :builder
-            RenderingEngine::BuilderRenderer.new(context)
+            BuilderRenderer.new(context)
           when :haml
-            RenderingEngine::HamlRenderer.new(context)
+            HamlRenderer.new(context)
           when :sass
-            RenderingEngine::SassRenderer.new(context)
+            SassRenderer.new(context)
           else
             raise EngineNotFound, "Could not find an engine for '#{engine}'"
           end
