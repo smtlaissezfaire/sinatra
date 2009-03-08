@@ -31,14 +31,10 @@ module Sinatra
         data   = template_resolver.lookup_template(engine_name, template, options)
         @engine ||= resolve_engine(engine_name)
         
-        render_template_with_layout(engine_name, template, data, options)
+        @engine.render_template_with_layout(engine_name, template, data, options)
       end
 
     private
-
-      def render_template_with_layout(engine_name, template, data, options)
-        @engine.render_template_with_layout(engine_name, template, data, options)
-      end
 
       def template_resolver
         @template_resolver ||= TemplateResolver.new(self)
