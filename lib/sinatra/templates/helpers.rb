@@ -14,7 +14,7 @@ module Sinatra
         render :haml, template, options
       end
 
-      def sass(template, options={}, &block)
+      def sass(template, options={})
         @engine = resolve_engine(:sass)
         options[:layout] = false
         render :sass, template, options
