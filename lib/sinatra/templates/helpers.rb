@@ -40,14 +40,6 @@ module Sinatra
         @engine.render_template_with_layout(engine_name, template, data, options)
       end
 
-      def render_layout(template, data, options, output)
-        @engine.render_layout(layout, data, options) { output }
-      end
-
-      def render_template(template, data, options)
-        @engine.render_template(template, data, options)
-      end
-
       def template_resolver
         @template_resolver ||= TemplateResolver.new(self)
       end
