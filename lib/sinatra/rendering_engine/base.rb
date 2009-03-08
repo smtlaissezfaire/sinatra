@@ -13,18 +13,12 @@ module Sinatra
           }
         end
 
-        def resolve_engine(engine, context)
-          case engine
-          when :erb
-            ERBRenderer.new(context)
-          when :builder
-            BuilderRenderer.new(context)
-          when :haml
-            HamlRenderer.new(context)
-          when :sass
-            SassRenderer.new(context)
+        def resolve_engine(engine_name, context)
+          if engine_class = engines[engine_name]
+            engine = RenderingEngine.const_get(engine_class)
+            return engine.new(context)
           else
-            raise EngineNotFound, "Could not find an engine for '#{engine}'"
+            raise EngineNotFound, "Could not find an engine for '#{engine_name}'"
           end
         end
       end
