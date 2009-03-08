@@ -16,7 +16,7 @@ module Sinatra
         def resolve_engine(engine_name, context)
           if engine_class = engines[engine_name]
             engine = RenderingEngine.const_get(engine_class)
-            return engine.new(context)
+            engine.new(context)
           else
             raise EngineNotFound, "Could not find an engine for '#{engine_name}'"
           end
