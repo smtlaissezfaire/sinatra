@@ -21,6 +21,14 @@ module Sinatra
         render_template_with_layout(engine_name, template, data, options)
       end
 
+      def render_template(template, data, options, &block)
+        raise NotImplementedError, "render_template must be implemented by subclasses of RenderingEngine::Base"
+      end
+
+      def render_layout(template, data, options, &block)
+        raise NotImplementedError, "render_layout must be implemented by subclasses of RenderingEngine::Base"
+      end
+
     private
 
       def template_resolver
