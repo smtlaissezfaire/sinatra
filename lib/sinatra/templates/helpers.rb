@@ -28,9 +28,8 @@ module Sinatra
       end
 
       def render(engine_name, template, options={}) #:nodoc:
-        data   = template_resolver.lookup_template(engine_name, template, options)
         @engine ||= resolve_engine(engine_name)
-        @engine.render(engine_name, template, data, options)
+        @engine.render(engine_name, template, options)
       end
 
     private

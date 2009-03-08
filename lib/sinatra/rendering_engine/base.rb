@@ -16,7 +16,10 @@ module Sinatra
         end
       end
 
-      alias_method :render, :render_template_with_layout
+      def render(engine_name, template, options={}) #:nodoc:
+        data   = template_resolver.lookup_template(engine_name, template, options)
+        render_template_with_layout(engine_name, template, data, options)
+      end
 
     private
 
