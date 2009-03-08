@@ -48,7 +48,7 @@ module Sinatra
       end
 
       def render_layout(template, data, options, output)
-        @engine.render(layout, data, options) { output }
+        @engine.render_layout(layout, data, options) { output }
       end
 
       def render_template(template, data, options)

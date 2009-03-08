@@ -14,6 +14,8 @@ module Sinatra
           xml.target!
         end
       end
+
+      alias_method :render_layout, :render
     end
   end
 end

@@ -7,6 +7,8 @@ module Sinatra
         engine = ::Haml::Engine.new(data, options[:options] || {})
         engine.render(self, options[:locals] || {}, &block)
       end
+
+      alias_method :render_layout, :render
     end
   end
 end
