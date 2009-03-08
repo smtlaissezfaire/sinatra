@@ -35,7 +35,7 @@ module Sinatra
     private
 
       def resolve_engine(engine)
-        EngineResolver.resolve(engine, self)
+        RenderingEngine::Base.resolve_engine(engine, self)
       end
     end
   end
