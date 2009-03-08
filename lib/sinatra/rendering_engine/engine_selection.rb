@@ -6,7 +6,8 @@ module Sinatra
           :erb     => :ERBRenderer,
           :builder => :BuilderRenderer,
           :haml    => :HamlRenderer,
-          :sass    => :SassRenderer
+          :sass    => :SassRenderer,
+          :ng      => :NokogiriRenderer
         }
       end
 

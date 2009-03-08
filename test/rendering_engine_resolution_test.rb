@@ -10,7 +10,8 @@ describe "Using a rendering engine" do
       :erb     => :ERBRenderer,
       :builder => :BuilderRenderer,
       :haml    => :HamlRenderer,
-      :sass    => :SassRenderer
+      :sass    => :SassRenderer,
+      :ng      => :NokogiriRenderer
     }
 
     assert_equal default_engines, engines

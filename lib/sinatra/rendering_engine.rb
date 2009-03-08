@@ -12,5 +12,6 @@ module Sinatra
     autoload :HamlRenderer,    "#{dir}/haml_renderer"
     autoload :SassRenderer,    "#{dir}/sass_renderer"
     autoload :BuilderRenderer, "#{dir}/builder_renderer"
+    autoload :NokogiriRenderer, "#{dir}/nokogiri_renderer"
   end
 end

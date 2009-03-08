@@ -1,0 +1,3 @@
+html do
+  text "nokogiri Layout: Hello World"
+end

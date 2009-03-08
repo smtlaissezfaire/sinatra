@@ -1,0 +1,4 @@
+html do
+  text "nokogiri Layout: "
+  cdata content_for_layout
+end

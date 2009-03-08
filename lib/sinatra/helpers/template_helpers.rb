@@ -23,6 +23,11 @@ module Sinatra
         render :builder, template, options, &block
       end
 
+      def ng(template=nil, options={}, &block)
+        @engine = use_engine(:ng)
+        render :ng, template, options, &block
+      end
+
       def render(engine_name, template, options={}, &block) #:nodoc:
         @engine ||= use_engine(engine_name)
         @engine.render(template, options, &block)

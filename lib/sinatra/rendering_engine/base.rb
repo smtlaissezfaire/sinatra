@@ -42,6 +42,11 @@ module Sinatra
       def template_handler
         @template_handler ||= TemplateHandler.new(@context, self)
       end
+
+      def metaclass(object = self, &block)
+        metaclass = class << object; self; end
+        metaclass.class_eval(&block)
+      end
     end
   end
 end

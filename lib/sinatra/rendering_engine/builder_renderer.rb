@@ -43,11 +43,6 @@ module Sinatra
           end
         end
       end
-
-      def metaclass(object = self, &block)
-        metaclass = class << object; self; end
-        metaclass.class_eval(&block)
-      end
     end
   end
 end
