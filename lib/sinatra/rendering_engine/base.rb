@@ -26,10 +26,6 @@ module Sinatra
       def template_resolver
         @template_resolver ||= Templates::TemplateResolver.new(@target)
       end
-
-      def resolve_engine(engine)
-        EngineResolver.resolve(engine, self)
-      end
     end
   end
 end
