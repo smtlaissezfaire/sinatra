@@ -10,8 +10,6 @@ module Sinatra
 
   private
 
-  private
-
     def template_resolver
       @template_resolver ||= TemplateResolver.new(self)
     end
