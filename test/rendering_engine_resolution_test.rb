@@ -66,7 +66,7 @@ describe "Using a rendering engine" do
   end
 
   it "should raise an EngineNotFound error if it cannot use the symbol" do
-    assert_raise Sinatra::RenderingEngine::Base::EngineNotFound do
+    assert_raise Sinatra::RenderingEngine::EngineNotFound do
       use_engine(:foo, self)
     end
   end
