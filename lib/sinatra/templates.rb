@@ -3,6 +3,5 @@ module Sinatra
     dir = File.dirname(__FILE__) + "/templates"
 
     require "#{dir}/helpers"
-    require "#{dir}/template_resolver"
   end
 end
