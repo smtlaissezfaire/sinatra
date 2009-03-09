@@ -34,7 +34,11 @@ module Sinatra
       end
 
       def layout?(options)
-        !(options[:layout] == false)
+        !no_layout?(options)
+      end
+
+      def no_layout?(options)
+        options[:layout] == false
       end
 
     private
