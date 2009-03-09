@@ -23,11 +23,12 @@ module Sinatra
       end
 
       def lookup_layout(engine, options)
-        return if options[:layout] == false
-        options.delete(:layout) if options[:layout] == true
-        template = options[:layout] || :layout
-        data     = lookup_template(engine, template, options)
-        [template, data]
+        if layout?(options)
+          options.delete(:layout) if options[:layout] == true
+          template = options[:layout] || :layout
+          data     = lookup_template(engine, template, options)
+          [template, data]
+        end
       rescue Errno::ENOENT
         nil
       end
