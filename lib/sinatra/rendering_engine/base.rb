@@ -11,7 +11,7 @@ module Sinatra
 
       def render_template_with_layout(engine_name, template, data, options)
         output = render_template(template, data, options)
-        layout, data = lookup_layout(engine_name, options)
+        layout, data = template_handler.lookup_layout(engine_name, options)
 
         if layout
           render_layout(template, data, options) { output }
@@ -21,7 +21,7 @@ module Sinatra
       end
 
       def render(engine_name, template, options={}) #:nodoc:
-        data = lookup_template(engine_name, template, options)
+        data = template_handler.lookup_template(engine_name, template, options)
         render_template_with_layout(engine_name, template, data, options)
       end
 
@@ -35,48 +35,8 @@ module Sinatra
 
     private
 
-      def lookup_template(engine, template, options)
-        case template
-        when Symbol
-          if cached = find_cached_template(template)
-            lookup_template(engine, cached, options)
-          else
-            read_template(engine, template, options)
-          end
-        when Proc
-          template.call
-        when String
-          template
-        else
-          raise ArgumentError
-        end
-      end
-
-      def lookup_layout(engine, options)
-        return if options[:layout] == false
-        options.delete(:layout) if options[:layout] == true
-        template = options[:layout] || :layout
-        data     = lookup_template(engine, template, options)
-        [template, data]
-      rescue Errno::ENOENT
-        nil
-      end
-
-      def read_template(engine, template, options)
-        ::File.read(template_path(engine, template, options))
-      end
-
-      def find_cached_template(template)
-        cached_templates[template]
-      end
-
-      def cached_templates
-        @context.class.templates
-      end
-
-      def template_path(engine, template, options={})
-        views_dir = options[:views_directory] || @context.options.views || "./views"
-        "#{views_dir}/#{template}.#{engine}"
+      def template_handler
+        @template_handler ||= TemplateHandler.new(@context)
       end
     end
   end
