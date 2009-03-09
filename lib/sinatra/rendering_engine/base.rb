@@ -13,7 +13,7 @@ module Sinatra
           }
         end
 
-        def resolve_engine(engine_name, context)
+        def use_engine(engine_name, context)
           if engine_class = engines[engine_name.to_sym]
             engine = RenderingEngine.const_get(engine_class)
             engine.new(context)

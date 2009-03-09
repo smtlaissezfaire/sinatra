@@ -4,34 +4,34 @@ module Sinatra
     # to render as a Symbol and returns a String with the rendered output.
     module Helpers
       def erb(template, options={})
-        @engine = resolve_engine(:erb)
+        @engine = use_engine(:erb)
         render :erb, template, options
       end
 
       def haml(template, options={})
-        @engine = resolve_engine(:haml)
+        @engine = use_engine(:haml)
         render :haml, template, options
       end
 
       def sass(template, options={})
-        @engine = resolve_engine(:sass)
+        @engine = use_engine(:sass)
         render :sass, template, options
       end
 
       def builder(template=nil, options={}, &block)
-        @engine = resolve_engine(:builder)
+        @engine = use_engine(:builder)
         render :builder, template, options, &block
       end
 
       def render(engine_name, template, options={}, &block) #:nodoc:
-        @engine ||= resolve_engine(engine_name)
+        @engine ||= use_engine(engine_name)
         @engine.render(engine_name, template, options, &block)
       end
 
     private
 
-      def resolve_engine(engine)
-        RenderingEngine::Base.resolve_engine(engine, self)
+      def use_engine(engine)
+        RenderingEngine::Base.use_engine(engine, self)
       end
     end
   end
