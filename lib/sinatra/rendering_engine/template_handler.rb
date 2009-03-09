@@ -32,6 +32,10 @@ module Sinatra
         nil
       end
 
+      def layout?(options)
+        !(options[:layout] == false)
+      end
+
     private
 
       def read_template(engine, template, options)
