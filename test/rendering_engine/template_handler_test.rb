@@ -2,7 +2,8 @@ require File.dirname(__FILE__) + "/../helper"
 
 describe "TemplateHandler" do
   before do
-    @handler = Sinatra::RenderingEngine::TemplateHandler.new(self)
+    @engine = 'rendering engine'
+    @handler = Sinatra::RenderingEngine::TemplateHandler.new(self, @engine)
   end
 
   it "should have a layout if given a layout name" do
