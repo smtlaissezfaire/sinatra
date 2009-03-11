@@ -3,11 +3,9 @@ require 'builder' unless defined? ::Builder
 module Sinatra
   module RenderingEngine
     class BuilderRenderer < Base
-      def render(template, data, options, &block)
-        options, template = template, nil if template.is_a?(Hash)
+      def render(data, options, &block)
         data = lambda { block } if data.nil?
-
-        super(template, data, options)
+        super(data, options)
       end
 
       def render_template(template, data, options, &block)
@@ -23,6 +21,10 @@ module Sinatra
       end
 
       alias_method :render_layout, :render_template
+
+      def engine_name
+        :builder
+      end
     end
   end
 end

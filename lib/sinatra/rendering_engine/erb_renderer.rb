@@ -20,6 +20,10 @@ module Sinatra
       end
 
       alias_method :render_layout, :render_template
+
+      def engine_name
+        :erb
+      end
     end
   end
 end

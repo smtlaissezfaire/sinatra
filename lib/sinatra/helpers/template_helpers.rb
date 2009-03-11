@@ -25,7 +25,7 @@ module Sinatra
 
       def render(engine_name, template, options={}, &block) #:nodoc:
         @engine ||= use_engine(engine_name)
-        @engine.render(engine_name, template, options, &block)
+        @engine.render(template, options, &block)
       end
 
     private

@@ -9,13 +9,13 @@ module Sinatra
 
       attr_reader :context
 
-      def render(engine_name, template, options={}) #:nodoc:
+      def render(template, options={}) #:nodoc:
         data = template_handler.lookup_template(engine_name, template, options)
         render_template_with_layout(engine_name, template, data, options)
       end
 
       def render_template_with_layout(engine_name, template, data, options)
-        output = render_template(template, data, options)
+        output = render_template(engine_name, data, options)
         layout, data = template_handler.lookup_layout(engine_name, options)
 
         if layout
@@ -31,6 +31,10 @@ module Sinatra
 
       def render_layout(template, data, options, &block)
         raise NotImplementedError, "render_layout must be implemented by subclasses of RenderingEngine::Base"
+      end
+
+      def engine_name
+        raise NotImplementedError, "subclasses of RenderingEngine::Base must implement an engine name"
       end
 
     private
