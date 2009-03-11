@@ -9,6 +9,11 @@ module Sinatra
 
       attr_reader :context
 
+      def render(engine_name, template, options={}) #:nodoc:
+        data = template_handler.lookup_template(engine_name, template, options)
+        render_template_with_layout(engine_name, template, data, options)
+      end
+
       def render_template_with_layout(engine_name, template, data, options)
         output = render_template(template, data, options)
         layout, data = template_handler.lookup_layout(engine_name, options)
@@ -18,11 +23,6 @@ module Sinatra
         else
           output
         end
-      end
-
-      def render(engine_name, template, options={}) #:nodoc:
-        data = template_handler.lookup_template(engine_name, template, options)
-        render_template_with_layout(engine_name, template, data, options)
       end
 
       def render_template(template, data, options, &block)
