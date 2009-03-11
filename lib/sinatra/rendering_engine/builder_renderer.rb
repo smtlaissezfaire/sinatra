@@ -9,15 +9,17 @@ module Sinatra
       end
 
       def render_template(data, options)
+        xml = ::Builder::XmlMarkup.new(:indent => 2)
+
         @context.instance_eval do
-          xml = ::Builder::XmlMarkup.new(:indent => 2)
           if data.respond_to?(:to_str)
             instance_eval(data.to_str, '<BUILDER>', 1)
           elsif data.kind_of?(Proc)
             data.call(xml)
           end
-          xml.target!
         end
+
+        xml.target!
       end
 
       alias_method :render_layout, :render_template
