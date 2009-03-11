@@ -12,7 +12,7 @@ module Sinatra
         @context.instance_eval do
           xml = ::Builder::XmlMarkup.new(:indent => 2)
           if data.respond_to?(:to_str)
-            eval data.to_str, binding, '<BUILDER>', 1
+            instance_eval(data.to_str, '<BUILDER>', 1)
           elsif data.kind_of?(Proc)
             data.call(xml)
           end
