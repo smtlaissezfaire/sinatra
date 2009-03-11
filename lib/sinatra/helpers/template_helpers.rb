@@ -30,8 +30,8 @@ module Sinatra
 
     private
 
-      def use_engine(engine)
-        RenderingEngine::Base.use_engine(engine, self)
+      def use_engine(engine_name)
+        RenderingEngine::Base.use_engine(engine_name, self)
       end
     end
   end
