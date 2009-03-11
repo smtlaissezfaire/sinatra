@@ -8,7 +8,7 @@ module Sinatra
         super(data, options)
       end
 
-      def render_template(template, data, options, &block)
+      def render_template(data, options, &block)
         @context.instance_eval do
           xml = ::Builder::XmlMarkup.new(:indent => 2)
           if data.respond_to?(:to_str)

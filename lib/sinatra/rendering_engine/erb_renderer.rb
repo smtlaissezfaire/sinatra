@@ -3,7 +3,7 @@ require 'erb' unless defined? ::ERB
 module Sinatra
   module RenderingEngine
     class ERBRenderer < Base
-      def render_template(template, data, options, &block)
+      def render_template(data, options, &block)
         @context.instance_eval do
           original_out_buf = @_out_buf
           data = data.call if data.kind_of? Proc

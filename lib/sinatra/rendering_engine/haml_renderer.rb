@@ -8,7 +8,7 @@ module Sinatra
         super
       end
 
-      def render_template(template, data, options, &block)
+      def render_template(data, options, &block)
         engine = ::Haml::Engine.new(data, options[:options] || {})
         engine.render(self, options[:locals] || {}, &block)
       end
