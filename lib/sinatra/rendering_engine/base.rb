@@ -11,10 +11,10 @@ module Sinatra
 
       def render(template, options={}) #:nodoc:
         data = template_handler.lookup_template(template, options)
-        render_template_with_layout(template, data, options)
+        render_template_with_layout(data, options)
       end
 
-      def render_template_with_layout(template, data, options)
+      def render_template_with_layout(data, options)
         output = render_template(data, options)
         layout, data = template_handler.lookup_layout(options)
 
