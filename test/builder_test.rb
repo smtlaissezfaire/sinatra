@@ -37,9 +37,12 @@ describe "Builder Templates" do
 
   it "renders with inline layouts" do
     mock_app {
-      layout do
-        %(xml.layout { xml << yield })
+      layout do |xml|
+        xml.layout do
+          xml.content_for_layout
+        end
       end
+      
       get('/') { builder %(xml.em 'Hello World') }
     }
     get '/'

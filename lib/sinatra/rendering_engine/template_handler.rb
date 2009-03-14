@@ -15,7 +15,7 @@ module Sinatra
             read_template(template, options)
           end
         when Proc
-          template.call
+          template
         when String
           template
         else

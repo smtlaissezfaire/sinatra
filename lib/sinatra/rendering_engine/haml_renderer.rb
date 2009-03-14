@@ -13,7 +13,10 @@ module Sinatra
         engine.render(self, options[:locals] || {}, &block)
       end
 
-      alias_method :render_layout, :render_template
+      def render_layout(data, options, &block)
+        data = data.call if data.is_a?(Proc)
+        render_template(data, options, &block)
+      end
 
       def engine_name
         :haml
