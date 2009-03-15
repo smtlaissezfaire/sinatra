@@ -5,7 +5,6 @@ module Sinatra
     class NokogiriRenderer < Base
       def render(data, options, &block)
         data = block if data.nil?
-
         super(data, options)
       end
 
