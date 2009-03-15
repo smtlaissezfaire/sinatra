@@ -29,7 +29,7 @@ module Sinatra
         raise NotImplementedError, "render_template must be implemented by subclasses of RenderingEngine::Base"
       end
 
-      def render_layout(template, data, options, &block)
+      def render_layout(data, options, &block)
         raise NotImplementedError, "render_layout must be implemented by subclasses of RenderingEngine::Base"
       end
 
