@@ -1,0 +1,3 @@
+html do
+  "markaby Layout: Hello World"
+end

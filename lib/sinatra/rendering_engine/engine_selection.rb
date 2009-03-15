@@ -7,7 +7,8 @@ module Sinatra
           :builder => :BuilderRenderer,
           :haml    => :HamlRenderer,
           :sass    => :SassRenderer,
-          :ng      => :NokogiriRenderer
+          :ng      => :NokogiriRenderer,
+          :mab     => :MarkabyRenderer
         }
       end
 

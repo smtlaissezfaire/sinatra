@@ -28,6 +28,11 @@ module Sinatra
         render :ng, template, options, &block
       end
 
+      def mab(template = nil, options={}, &block)
+        @engine = use_engine(:mab)
+        render :mab, template, options, &block
+      end
+
       def render(engine_name, template, options={}, &block) #:nodoc:
         @engine ||= use_engine(engine_name)
         @engine.render(template, options, &block)

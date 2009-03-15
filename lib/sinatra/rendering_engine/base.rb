@@ -47,6 +47,15 @@ module Sinatra
         metaclass = class << object; self; end
         metaclass.class_eval(&block)
       end
+
+      def data_to_block(data)
+        case data
+        when Proc
+          data
+        when String
+          lambda { instance_eval(data, __FILE__, __LINE__) }
+        end
+      end
     end
   end
 end

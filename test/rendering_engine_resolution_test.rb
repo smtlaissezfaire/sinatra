@@ -11,7 +11,8 @@ describe "Using a rendering engine" do
       :builder => :BuilderRenderer,
       :haml    => :HamlRenderer,
       :sass    => :SassRenderer,
-      :ng      => :NokogiriRenderer
+      :ng      => :NokogiriRenderer,
+      :mab     => :MarkabyRenderer
     }
 
     assert_equal default_engines, engines

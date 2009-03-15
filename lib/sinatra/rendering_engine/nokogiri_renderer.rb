@@ -34,6 +34,10 @@ module Sinatra
         end
       end
 
+      def html_builder
+        Nokogiri::HTML::Builder
+      end
+
       def define_locals(options)
         locals = options[:locals] || { }
 
@@ -43,19 +47,6 @@ module Sinatra
               value
             end
           end
-        end
-      end
-
-      def html_builder
-        Nokogiri::HTML::Builder
-      end
-
-      def data_to_block(data)
-        case data
-        when Proc
-          data
-        when String
-          lambda { instance_eval(data, __FILE__, __LINE__) }
         end
       end
     end
